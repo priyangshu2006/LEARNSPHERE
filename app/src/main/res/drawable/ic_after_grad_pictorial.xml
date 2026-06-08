@@ -1,0 +1,29 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <!-- City Skyline Background -->
+    <path
+        android:fillColor="#BBDEFB"
+        android:pathData="M0,48h48v-20h-48z" />
+    <path
+        android:fillColor="#1976D2"
+        android:pathData="M4,35h6v13H4zM12,25h8v23h-8zM24,30h10v18H24zM36,20h8v28h-8z" />
+    <path
+        android:fillColor="#64B5F6"
+        android:pathData="M6,38h2v2H6zM14,28h2v2H14zM14,34h2v2H14zM26,33h4v2h-4zM26,38h4v2h-4zM38,24h4v2h-4zM38,30h4v2h-4z" />
+
+    <!-- Flying Graduation Cap -->
+    <path
+        android:fillColor="#1A237E"
+        android:pathData="M15,15l10,-4l5,8l-12,5z" />
+    <path
+        android:fillColor="#1A237E"
+        android:pathData="M18,19v3c0,0 2,1 5,1s4,-1 4,-1v-3l-4,2z" />
+    <!-- Tassel Motion -->
+    <path
+        android:strokeColor="#FFD600"
+        android:strokeWidth="1.5"
+        android:pathData="M16,16L10,20 M11,18L7,21" />
+</vector>
