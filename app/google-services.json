@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1024088379925",
+    "firebase_url": "https://learnsphere1234-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "learnsphere1234",
+    "storage_bucket": "learnsphere1234.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1024088379925:android:f15dcba1288664b8ee741c",
+        "android_client_info": {
+          "package_name": "com.example.learnsphere"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1024088379925-h1kfatsonafj8dmfsefdi017225p1501.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdE_WN79nBfYtFSg8cPJnWgwZO6OnJ74I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1024088379925-h1kfatsonafj8dmfsefdi017225p1501.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
