@@ -1,13 +1,16 @@
 package com.example.learnsphere
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ExitToApp
+import androidx.compose.material.icons.filled.BusinessCenter
+import androidx.compose.material.icons.filled.MenuBook
+import androidx.compose.material.icons.filled.School
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -16,11 +19,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.google.firebase.auth.FirebaseAuth
+
+data class ExploreItem(
+    val title: String,
+    val icon: ImageVector,
+    val route: String
+)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -93,118 +102,151 @@ fun HomeScreen(navController: NavController) {
         }
 
         // --- Body Content ---
-        Column(modifier = Modifier.padding(24.dp)) {
-            
-            // Higher Studies Section
+        Column(modifier = Modifier.padding(vertical = 24.dp)) {
+
+            // --- Explore LS Section (Horizontal Slider) ---
             Text(
-                text = "Explore Higher Studies",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                color = darkBlue
+                text = "Explore LS",
+                fontSize = 22.sp,
+                fontWeight = FontWeight.ExtraBold,
+                color = Color(0xFF1E293B), // Premium dark color
+                modifier = Modifier.padding(horizontal = 24.dp)
             )
-            Spacer(modifier = Modifier.height(16.dp))
             
-            val options = listOf("After 10th", "After 12th", "After Graduation")
+            Spacer(modifier = Modifier.height(16.dp))
+
+            val exploreOptions = listOf(
+                ExploreItem("After 10th", Icons.Default.School, "after_tenth"),
+                ExploreItem("After 12th", Icons.Default.MenuBook, "after_twelfth"),
+                ExploreItem("After Graduation", Icons.Default.BusinessCenter, "after_graduation")
+            )
+
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(rememberScrollState())
+                    .padding(horizontal = 24.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                options.forEach { text ->
-                    Card(
-                        onClick = { /* TODO */ },
-                        modifier = Modifier.weight(1f),
-                        shape = RoundedCornerShape(16.dp),
-                        colors = CardDefaults.cardColors(containerColor = lightBlue)
-                    ) {
-                        Box(
-                            modifier = Modifier.padding(16.dp).fillMaxWidth(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = text,
-                                fontSize = 12.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                color = primaryBlue
-                            )
-                        }
+                exploreOptions.forEach { item ->
+                    ExploreCard(item) {
+                        navController.navigate(item.route)
                     }
                 }
+                // Extra padding at the end for consistent scrolling feel
+                Spacer(modifier = Modifier.width(8.dp))
             }
 
             Spacer(modifier = Modifier.height(32.dp))
 
             // Continue Learning Section
-            Text(
-                text = "Continue Learning",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                color = darkBlue
-            )
-            Spacer(modifier = Modifier.height(16.dp))
+            Column(modifier = Modifier.padding(horizontal = 24.dp)) {
+                Text(
+                    text = "Continue Learning",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = darkBlue
+                )
+                Spacer(modifier = Modifier.height(16.dp))
 
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(20.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White),
-                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-            ) {
-                Row(
-                    modifier = Modifier.padding(20.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(20.dp),
+                    colors = CardDefaults.cardColors(containerColor = Color.White),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .size(50.dp)
-                            .clip(RoundedCornerShape(12.dp))
-                            .background(primaryBlue.copy(alpha = 0.1f)),
-                        contentAlignment = Alignment.Center
+                    Row(
+                        modifier = Modifier.padding(20.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text("WD", color = primaryBlue, fontWeight = FontWeight.Bold)
-                    }
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Column {
-                        Text(text = "Web Development", fontWeight = FontWeight.Bold, fontSize = 16.sp)
-                        Spacer(modifier = Modifier.height(4.dp))
-                        LinearProgressIndicator(
-                            progress = { 0.5f },
-                            modifier = Modifier.fillMaxWidth().height(6.dp).clip(CircleShape),
-                            color = primaryBlue,
-                            trackColor = lightBlue
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Text(text = "50% completed", fontSize = 12.sp, color = Color.Gray)
+                        Box(
+                            modifier = Modifier
+                                .size(50.dp)
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(primaryBlue.copy(alpha = 0.1f)),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text("WD", color = primaryBlue, fontWeight = FontWeight.Bold)
+                        }
+                        Spacer(modifier = Modifier.width(16.dp))
+                        Column {
+                            Text(text = "Web Development", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                            Spacer(modifier = Modifier.height(4.dp))
+                            LinearProgressIndicator(
+                                progress = { 0.5f },
+                                modifier = Modifier.fillMaxWidth().height(6.dp).clip(CircleShape),
+                                color = primaryBlue,
+                                trackColor = lightBlue
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text(text = "50% completed", fontSize = 12.sp, color = Color.Gray)
+                        }
                     }
                 }
-            }
 
-            Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(32.dp))
 
-            // Career Path Section
-            Button(
-                onClick = { /* TODO */ },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(60.dp),
-                shape = RoundedCornerShape(16.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = darkBlue)
-            ) {
-                Text("Find My Career Path", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                // Career Path Section
+                Button(
+                    onClick = { /* TODO */ },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(60.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = darkBlue)
+                ) {
+                    Text("Find My Career Path", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                }
+                
+                Spacer(modifier = Modifier.height(12.dp))
+                
+                OutlinedButton(
+                    onClick = { /* TODO */ },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(60.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    border = ButtonDefaults.outlinedButtonBorder(enabled = true)
+                ) {
+                    Text("Explore All Courses", color = darkBlue, fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                }
+                
+                Spacer(modifier = Modifier.height(24.dp))
             }
-            
-            Spacer(modifier = Modifier.height(12.dp))
-            
-            OutlinedButton(
-                onClick = { /* TODO */ },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(60.dp),
-                shape = RoundedCornerShape(16.dp),
-                border = ButtonDefaults.outlinedButtonBorder(enabled = true)
-            ) {
-                Text("Explore All Courses", color = darkBlue, fontSize = 16.sp, fontWeight = FontWeight.Bold)
-            }
-            
-            Spacer(modifier = Modifier.height(24.dp))
+        }
+    }
+}
+
+@Composable
+fun ExploreCard(item: ExploreItem, onClick: () -> Unit) {
+    Card(
+        onClick = onClick,
+        modifier = Modifier
+            .width(160.dp)
+            .height(120.dp),
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.Start
+        ) {
+            Icon(
+                imageVector = item.icon,
+                contentDescription = null,
+                tint = Color(0xFF1A73E8),
+                modifier = Modifier.size(32.dp)
+            )
+            Text(
+                text = item.title,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF1E293B)
+            )
         }
     }
 }
